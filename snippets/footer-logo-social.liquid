@@ -1,3 +1,11 @@
+{%- liquid
+  if show_social == false
+    assign show_social_icons = false
+  else
+    assign show_social_icons = true
+  endif
+-%}
+
 <div class="footer__logo-social">
   {%- if block.settings.logo -%}
     {%- style -%}
@@ -13,7 +21,8 @@
         {%- capture widths -%}{{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio }}, {{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio | times: 2 }}{%- endcapture -%}
         {%- capture style -%}max-width: {{ block.settings.desktop_logo_height | times: block.settings.logo.aspect_ratio }}px;max-height: {{ block.settings.desktop_logo_height }}px;{%- endcapture -%}
 
-        {%- render 'image-element',
+        {%-
+          render 'image-element',
           img: block.settings.logo,
           img_width: width,
           img_height: height,
@@ -26,6 +35,7 @@
     </div>
   {%- endif -%}
 
-  {% render 'social-icons', additional_classes: 'footer__social' %}
-
+  {%- if show_social_icons -%}
+    {% render 'social-icons', additional_classes: 'footer__social' %}
+  {%- endif -%}
 </div>

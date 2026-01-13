@@ -1,0 +1,106 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "list-collections-template",
+      "blocks": {
+        "collection_rWWpTQ": {
+          "type": "collection",
+          "settings": {
+            "collection": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_rWWpTQ"
+      ],
+      "disabled": true,
+      "settings": {
+        "title_enable": true,
+        "display_type": "all",
+        "sort": "alphabetical",
+        "grid": "3"
+      }
+    },
+    "featured_collections_wxVJgj": {
+      "type": "featured-collections",
+      "blocks": {
+        "collection_jYAdFq": {
+          "type": "collection",
+          "settings": {
+            "collection": "knits-galore",
+            "focal_point": "center center",
+            "size": "wide"
+          }
+        },
+        "collection_9LBc3G": {
+          "type": "collection",
+          "settings": {
+            "collection": "leo",
+            "focal_point": "center center",
+            "size": "square-small"
+          }
+        },
+        "collection_pQ4BiD": {
+          "type": "collection",
+          "settings": {
+            "collection": "summer-finale",
+            "focal_point": "center center",
+            "size": "square-small"
+          }
+        },
+        "collection_k7d7HM": {
+          "type": "collection",
+          "settings": {
+            "collection": "butterfly-collection",
+            "focal_point": "center center",
+            "size": "square-small"
+          }
+        },
+        "collection_4r9dxj": {
+          "type": "collection",
+          "settings": {
+            "collection": "cozy",
+            "focal_point": "center center",
+            "size": "square-small"
+          }
+        },
+        "collection_xDbDHz": {
+          "type": "collection",
+          "settings": {
+            "collection": "frutas",
+            "focal_point": "center center",
+            "size": "wide"
+          }
+        }
+      },
+      "block_order": [
+        "collection_jYAdFq",
+        "collection_9LBc3G",
+        "collection_pQ4BiD",
+        "collection_k7d7HM",
+        "collection_4r9dxj",
+        "collection_xDbDHz"
+      ],
+      "custom_css": [],
+      "name": "t:sections.featured-collections.presets.collection_list.name",
+      "settings": {
+        "title": "",
+        "divider": false,
+        "enable_gutter": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "featured_collections_wxVJgj"
+  ]
+}

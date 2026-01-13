@@ -1,0 +1,150 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "slideshow_7cQ8nR": {
+      "type": "slideshow",
+      "blocks": {
+        "image_46ybry": {
+          "type": "image",
+          "settings": {
+            "title": "",
+            "title_size": 66,
+            "subheading": "",
+            "link": "shopify://collections/cozy",
+            "link_text": "SHOP THE COZY SET",
+            "text_align": "vertical-center horizontal-center",
+            "image": "shopify://shop_images/lockscreen_249a8471-d2b7-4bee-b8f6-f4f64c404d86.png",
+            "parallax_direction": "top",
+            "overlay_opacity": 0
+          }
+        },
+        "image_TEUYGR": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "title": "",
+            "title_size": 66,
+            "subheading": "",
+            "link": "shopify://collections/holiday",
+            "link_text": "HOLIDAY",
+            "text_align": "vertical-center horizontal-center",
+            "image": "shopify://shop_images/heroimage2.png",
+            "image_mobile": "shopify://shop_images/IMG_7704_copy.jpg",
+            "parallax_direction": "top",
+            "overlay_opacity": 6
+          }
+        },
+        "image_WdeMDE": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "title": "",
+            "title_size": 66,
+            "subheading": "",
+            "link": "shopify://collections/knits-galore",
+            "link_text": "SHOP NEW IN",
+            "text_align": "vertical-center horizontal-center",
+            "image": "shopify://shop_images/final_valerie.png",
+            "parallax_direction": "top",
+            "overlay_opacity": 6
+          }
+        }
+      },
+      "block_order": [
+        "image_46ybry",
+        "image_TEUYGR",
+        "image_WdeMDE"
+      ],
+      "settings": {
+        "section_height": "650px",
+        "mobile_height": "auto",
+        "parallax": false,
+        "style": "minimal",
+        "autoplay": true,
+        "autoplay_speed": 10,
+        "lazyload_images": false
+      }
+    },
+    "featured_collection_dJk78g": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Shop Best Sellers",
+        "home_featured_products": "best-sellers",
+        "per_row": 4,
+        "rows": 1,
+        "view_all": true,
+        "divider": false
+      }
+    },
+    "background_image_text_jVfTCb": {
+      "type": "background-image-text",
+      "settings": {
+        "subtitle": "",
+        "title": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "shopify://products/allure-top",
+        "image": "shopify://shop_images/DSCF8186_1cc9fb77-190a-4d60-b91e-d96177c45ce2.jpg",
+        "layout": "left",
+        "height": 550,
+        "parallax": false,
+        "parallax_direction": "left",
+        "lazyload_images": false
+      }
+    },
+    "featured_collection_bxdHC7": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Shop Leo",
+        "home_featured_products": "leo",
+        "per_row": 4,
+        "rows": 1,
+        "view_all": true,
+        "divider": false
+      }
+    },
+    "featured_collection_RngxeJ": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Shop Swim",
+        "home_featured_products": "swim",
+        "per_row": 4,
+        "rows": 1,
+        "view_all": true,
+        "divider": false
+      }
+    },
+    "background_image_text_GYJfVt": {
+      "type": "background-image-text",
+      "settings": {
+        "subtitle": "",
+        "title": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "",
+        "image": "shopify://shop_images/DSCF3561_63d62a40-8b15-4b9b-9c95-d0a53428f0b4.jpg",
+        "layout": "left",
+        "height": 550,
+        "parallax": false,
+        "parallax_direction": "left",
+        "lazyload_images": false
+      }
+    }
+  },
+  "order": [
+    "slideshow_7cQ8nR",
+    "featured_collection_dJk78g",
+    "background_image_text_jVfTCb",
+    "featured_collection_bxdHC7",
+    "featured_collection_RngxeJ",
+    "background_image_text_GYJfVt"
+  ]
+}

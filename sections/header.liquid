@@ -239,46 +239,57 @@
     display: block;
   }
 
-  /* Mobile hamburger in new header */
-  .kiki-header__mobile-toggle {
+  /* Mobile header elements - hidden on desktop */
+  .kiki-header__announcement--mobile,
+  .kiki-header__mobile-row {
     display: none;
-  }
-
-  .kiki-header__mobile-toggle .icon {
-    width: 24px;
-    height: 24px;
-    stroke: var(--color-black, #000000);
-    fill: none;
-    stroke-width: var(--iconWeight, 2px);
   }
 
   /* Mobile responsive */
   @media screen and (max-width: 768px) {
     .kiki-header {
       height: auto;
-      min-height: 60px;
       flex-direction: column;
       gap: 0;
+      background: var(--color-white, #ffffff);
     }
 
-    .kiki-header__logo {
-      padding: 8px 15px;
-      justify-content: space-between;
-      width: 100%;
+    /* Hide desktop elements on mobile */
+    .kiki-header__logo,
+    .kiki-header__content {
+      display: none;
     }
 
-    .kiki-header__logo .site-header__logo img {
-      max-height: 40px;
+    /* Mobile announcement bar on top */
+    .kiki-header__announcement--mobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 15px;
+      border-bottom: 1px dashed var(--color-black, #000000);
+      order: 1;
     }
 
-    .kiki-header__mobile-toggle {
+    .kiki-header__announcement--mobile .kiki-header__announcement-text {
+      font-family: 'PP Neue Corp Wide', var(--typeHeaderPrimary), sans-serif;
+      font-size: 6px;
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      color: var(--color-black, #000000);
+      text-align: center;
+    }
+
+    /* Mobile header row: hamburger - logo - bag */
+    .kiki-header__mobile-row {
+      height: 60px;
       display: flex;
       align-items: center;
-      gap: 15px;
+      justify-content: space-between;
+      padding: 12px 16px;
+      order: 2;
     }
 
-    .kiki-header__mobile-toggle button,
-    .kiki-header__mobile-toggle a {
+    .kiki-header__hamburger {
       background: none;
       border: none;
       padding: 0;
@@ -286,28 +297,81 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 24px;
     }
 
-    .kiki-header__content {
-      display: none;
+    .kiki-header__hamburger .icon {
+      width: 17px;
+      height: 17px;
+      stroke: var(--color-black, #000000);
+      fill: none;
+      stroke-width: 1.5px;
     }
 
-    .kiki-header__announcement--mobile {
+    .kiki-header__mobile-logo {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      border-bottom: 1px dashed var(--color-black, #000000);
-      padding: 8px 15px;
+      align-items: center;
       justify-content: center;
     }
 
-    .kiki-header__announcement--mobile .kiki-header__announcement-text {
-      font-size: 11px;
-      letter-spacing: 1px;
+    .kiki-header__mobile-logo .site-header__logo {
+      margin: 0;
     }
-  }
 
-  @media screen and (min-width: 769px) {
-    .kiki-header__announcement--mobile {
+    .kiki-header__mobile-logo .site-header__logo a,
+    .kiki-header__mobile-logo .site-header__logo-link {
+      padding-top: 0 !important;
+      position: relative !important;
+      display: block;
+    }
+
+    .kiki-header__mobile-logo .site-header__logo img {
+    max-height: 40px;
+      width: auto;
+      position: relative !important;
+    }
+
+    /* Ensure mobile logo is visible */
+    .kiki-header__mobile-logo .small--hide {
+      display: none !important;
+    }
+
+    .kiki-header__mobile-logo .medium-up--hide {
+      display: block !important;
+    }
+
+    .kiki-header__mobile-bag {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      width: 24px;
+    }
+
+    .kiki-header__mobile-bag .icon {
+      width: 15px;
+      height: 19px;
+      stroke: var(--color-black, #000000);
+      fill: none;
+      stroke-width: 1.5px;
+    }
+
+    .kiki-header__mobile-bag .cart-link__bubble {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--colorCartDot, #ff4f33);
       display: none;
+    }
+
+    .kiki-header__mobile-bag .cart-link__bubble--visible {
+      display: block;
     }
   }
 
@@ -386,36 +450,58 @@
     >
       {%- comment -%} KIKI Header - New 2-column layout {%- endcomment -%}
       <div class="kiki-header">
-        {%- comment -%} Logo Column {%- endcomment -%}
+        {%- comment -%} Mobile: Announcement bar on top {%- endcomment -%}
+        <div class="kiki-header__announcement--mobile">
+          <div class="kiki-header__announcement-text">
+            {%- if section.settings.announcement_link != blank -%}
+              <a href="{{ section.settings.announcement_link }}">
+                {{ section.settings.announcement_text }}
+              </a>
+            {%- else -%}
+              {{ section.settings.announcement_text }}
+            {%- endif -%}
+          </div>
+        </div>
+
+        {%- comment -%} Mobile: Header row with hamburger - logo - bag {%- endcomment -%}
+        <div class="kiki-header__mobile-row">
+          <button
+            type="button"
+            class="kiki-header__hamburger js-drawer-open-nav"
+            aria-controls="NavDrawer"
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              role="presentation"
+              class="icon icon-hamburger"
+              viewBox="0 0 64 64"
+            >
+              <path d="M7 15h51M7 32h43M7 49h51"/>
+            </svg>
+            <span class="visually-hidden">{{ 'general.drawers.navigation' | t }}</span>
+          </button>
+
+          <div class="kiki-header__mobile-logo">
+            {%- render 'header-logo-block', section: section -%}
+          </div>
+
+          <a
+            href="{{ routes.cart_url }}"
+            class="kiki-header__mobile-bag js-drawer-open-cart js-no-transition"
+            aria-controls="CartDrawer"
+          >
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-bag" viewBox="0 0 64 64">
+              <path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/><path d="M14.74 18h36.51l3.59 36.73h-43.7z"/>
+            </svg>
+            <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+            <span class="cart-link__bubble{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}"></span>
+          </a>
+        </div>
+
+        {%- comment -%} Desktop: Logo Column {%- endcomment -%}
         <div class="kiki-header__logo">
           {%- render 'header-logo-block', section: section -%}
-
-          {%- comment -%} Mobile icons {%- endcomment -%}
-          <div class="kiki-header__mobile-toggle">
-            <a href="{{ routes.cart_url }}" class="js-drawer-open-cart js-no-transition" aria-controls="CartDrawer">
-              <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-bag" viewBox="0 0 64 64">
-                <path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/><path d="M14.74 18h36.51l3.59 36.73h-43.7z"/>
-              </svg>
-              <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
-              <span class="cart-link__bubble{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}"></span>
-            </a>
-            <button
-              type="button"
-              class="js-drawer-open-nav"
-              aria-controls="NavDrawer"
-            >
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                role="presentation"
-                class="icon icon-hamburger"
-                viewBox="0 0 64 64"
-              >
-                <path d="M7 15h51M7 32h43M7 49h51"/>
-              </svg>
-              <span class="visually-hidden">{{ 'general.drawers.navigation' | t }}</span>
-            </button>
-          </div>
         </div>
 
         {%- comment -%} Content Column (Announcement + Nav) {%- endcomment -%}
@@ -488,19 +574,6 @@
               </a>
             </div>
           </div>
-        </div>
-      </div>
-
-      {%- comment -%} Mobile announcement bar {%- endcomment -%}
-      <div class="kiki-header__announcement--mobile">
-        <div class="kiki-header__announcement-text">
-          {%- if section.settings.announcement_link != blank -%}
-            <a href="{{ section.settings.announcement_link }}">
-              {{ section.settings.announcement_text }}
-            </a>
-          {%- else -%}
-            {{ section.settings.announcement_text }}
-          {%- endif -%}
         </div>
       </div>
 

@@ -6,6 +6,148 @@
   endif
 -%}
 
+<style>
+  /* KIKI Mobile Nav Drawer Styling */
+  #NavDrawer.drawer {
+    background-color: #ffffff;
+  }
+
+  #NavDrawer .drawer__contents {
+    background-color: #ffffff;
+  }
+
+  #NavDrawer .drawer__fixed-header {
+    border-bottom: none;
+  }
+
+  #NavDrawer .drawer__header {
+    border-bottom: 1px dashed #000000;
+  }
+
+  #NavDrawer .drawer__close-button .icon {
+    stroke: #333333;
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Main menu items typography */
+  #NavDrawer .mobile-nav {
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  #NavDrawer .mobile-nav > .mobile-nav__item {
+    background-color: #ffffff;
+  }
+
+  #NavDrawer .mobile-nav__item:after {
+    border-bottom: none;
+  }
+
+  #NavDrawer .mobile-nav__item .mobile-nav__faux-link,
+  #NavDrawer .mobile-nav__item .mobile-nav__link {
+    font-family: 'PP Neue Corp Wide', var(--typeHeaderPrimary), sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333333;
+    letter-spacing: 1.3px;
+    text-transform: capitalize;
+    line-height: 40px;
+    padding: 0 18px;
+  }
+
+  #NavDrawer .mobile-nav__item .mobile-nav__faux-link:active,
+  #NavDrawer .mobile-nav__item .mobile-nav__link:active,
+  #NavDrawer .mobile-nav__item .mobile-nav__faux-link:hover,
+  #NavDrawer .mobile-nav__item .mobile-nav__link:hover {
+    color: #333333;
+    background-color: transparent;
+  }
+
+  #NavDrawer .mobile-nav__link--button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  /* Sub-items styling */
+  #NavDrawer .mobile-nav__sublist .mobile-nav__link,
+  #NavDrawer .mobile-nav__sublist .mobile-nav__faux-link {
+    padding-left: 48px;
+    line-height: 40px;
+  }
+
+  /* Grandchild items */
+  #NavDrawer .mobile-nav__grandchildlist .mobile-nav__link {
+    padding-left: 66px;
+  }
+
+  /* Chevron icons styling */
+  #NavDrawer .mobile-nav__toggle {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  #NavDrawer .mobile-nav__toggle .icon {
+    width: 24px;
+    height: 24px;
+    opacity: 0.5;
+    stroke: #333333;
+  }
+
+  #NavDrawer .mobile-nav__toggle button {
+    padding: 10px;
+    background: none;
+    border: none;
+  }
+
+  #NavDrawer .collapsible-trigger__icon {
+    position: static;
+  }
+
+  #NavDrawer .collapsible-trigger__icon .icon {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s ease;
+  }
+
+  #NavDrawer .collapsible-trigger.is-open .collapsible-trigger__icon .icon {
+    transform: rotate(180deg);
+  }
+
+  /* Social icons centered at bottom */
+  #NavDrawer .mobile-nav__social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    padding: 0;
+  }
+
+  #NavDrawer .mobile-nav__social li {
+    margin: 0 10px;
+  }
+
+  #NavDrawer .mobile-nav__social .icon {
+    width: 25px;
+    height: 25px;
+    fill: #333333;
+  }
+
+  /* Hide spacer */
+  #NavDrawer .mobile-nav__spacer {
+    display: none;
+  }
+
+  /* Scrollable area styling */
+  #NavDrawer .drawer__scrollable {
+    padding: 0;
+  }
+</style>
+
 <div id="NavDrawer" class="drawer drawer--{{ drawer_position }}">
   <div class="drawer__contents">
     <div class="drawer__fixed-header">
@@ -13,7 +155,9 @@
         <div class="drawer__title"></div>
         <div class="drawer__close">
           <button type="button" class="drawer__close-button js-drawer-close">
-            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" viewBox="0 0 64 64"><title>icon-X</title><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/></svg>
+            <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-close" viewBox="0 0 64 64">
+              <title>icon-X</title><path d="m19 17.61 27.12 27.13m0-27.12L19 44.74"/>
+            </svg>
             <span class="icon__fallback-text">{{ 'general.drawers.close_menu' | t }}</span>
           </button>
         </div>
@@ -59,7 +203,11 @@
                 {%- endif -%}
 
                 {%- if trigger_link -%}
-                  <button type="button" class="mobile-nav__link--button collapsible-trigger collapsible--auto-height" aria-controls="Linklist-{{ child_list_handle }}">
+                  <button
+                    type="button"
+                    class="mobile-nav__link--button collapsible-trigger collapsible--auto-height"
+                    aria-controls="Linklist-{{ child_list_handle }}"
+                  >
                     <span class="mobile-nav__faux-link">{{ link.title }}</span>
                     <div class="mobile-nav__toggle">
                       <span>
@@ -72,7 +220,12 @@
                     {{ link.title }}
                   </a>
                   <div class="mobile-nav__toggle">
-                    <button type="button" class="collapsible-trigger collapsible--auto-height" aria-controls="Linklist-{{ child_list_handle }}" aria-labelledby="Label-{{ child_list_handle }}">
+                    <button
+                      type="button"
+                      class="collapsible-trigger collapsible--auto-height"
+                      aria-controls="Linklist-{{ child_list_handle }}"
+                      aria-labelledby="Label-{{ child_list_handle }}"
+                    >
                       {%- render 'collapsible-icons' -%}
                     </button>
                   </div>
@@ -83,7 +236,10 @@
             {%- endif -%}
 
             {%- if has_dropdown -%}
-              <div id="Linklist-{{ child_list_handle }}" class="mobile-nav__sublist collapsible-content collapsible-content--all">
+              <div
+                id="Linklist-{{ child_list_handle }}"
+                class="mobile-nav__sublist collapsible-content collapsible-content--all"
+              >
                 <div class="collapsible-content__inner">
                   <ul class="mobile-nav__sublist">
                     {%- for childlink in link.links -%}
@@ -101,7 +257,11 @@
                           {%- endif -%}
 
                           {%- if trigger_link and has_sub_dropdown -%}
-                            <button type="button" class="mobile-nav__link--button mobile-nav__link--button-small collapsible-trigger" aria-controls="Sublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}">
+                            <button
+                              type="button"
+                              class="mobile-nav__link--button mobile-nav__link--button-small collapsible-trigger"
+                              aria-controls="Sublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}"
+                            >
                               <span class="mobile-nav__faux-link">{{ childlink.title | escape }}</span>
                               <div class="mobile-nav__toggle">
                                 <span>
@@ -110,19 +270,32 @@
                               </div>
                             </button>
                           {%- else -%}
-                            <a href="{{ childlink.url }}" class="mobile-nav__link" id="Sublabel-{{ grand_child_list_handle }}">
+                            <a
+                              href="{{ childlink.url }}"
+                              class="mobile-nav__link"
+                              id="Sublabel-{{ grand_child_list_handle }}"
+                            >
                               {{ childlink.title | escape }}
                             </a>
                           {%- endif -%}
                           {%- if trigger_link == false and has_sub_dropdown -%}
-                            <button type="button" class="collapsible-trigger" aria-controls="Sublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}" aria-labelledby="Sublabel-{{ grand_child_list_handle }}">
+                            <button
+                              type="button"
+                              class="collapsible-trigger"
+                              aria-controls="Sublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}"
+                              aria-labelledby="Sublabel-{{ grand_child_list_handle }}"
+                            >
                               {%- render 'collapsible-icons-alt' -%}
                             </button>
                           {%- endif -%}
                         </div>
 
                         {%- if has_sub_dropdown -%}
-                          <div id="Sublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}" class="mobile-nav__sublist collapsible-content collapsible-content--all" aria-labelledby="Sublabel-{{ grand_child_list_handle }}">
+                          <div
+                            id="Sublinklist-{{ child_list_handle }}-{{ grand_child_list_handle }}"
+                            class="mobile-nav__sublist collapsible-content collapsible-content--all"
+                            aria-labelledby="Sublabel-{{ grand_child_list_handle }}"
+                          >
                             <div class="collapsible-content__inner">
                               <ul class="mobile-nav__grandchildlist">
                                 {%- for grandchildlink in childlink.links -%}
@@ -146,23 +319,25 @@
                         {%- if promo_url_1 -%}
                           <a href="{{ promo_url_1 }}" class="megamenu__promo-link">
                         {%- endif -%}
-                          <div style="margin: 0 auto; max-width: {{ promo_image_1.width }}px">
-                            <div class="image-wrap aos-animate megamenu__promo-image" style="height: 0; padding-bottom: {{ 100 | divided_by: promo_image_1.aspect_ratio }}%;">
-                              {%- render 'image-element',
-                                img: promo_image_1,
-                                widths: '540, 750, 900',
-                              -%}
+                        <div style="margin: 0 auto; max-width: {{ promo_image_1.width }}px">
+                          <div
+                            class="image-wrap aos-animate megamenu__promo-image"
+                            style="height: 0; padding-bottom: {{ 100 | divided_by: promo_image_1.aspect_ratio }}%;"
+                          >
+                            {%- render 'image-element', img: promo_image_1, widths: '540, 750, 900' -%}
                           </div>
                           {%- if promo_heading_1 -%}
-                            <div><strong>{{ promo_heading_1 }}</strong></div>
+                            <div>
+                              <strong>{{ promo_heading_1 }}</strong>
+                            </div>
                           {%- endif -%}
                           {%- if promo_text_1 -%}
                             <div>{{ promo_text_1 }}</div>
                           {%- endif -%}
-                        {%- if promo_url_1 -%}
-                          </a>
-                        {%- endif -%}
-                      </div>
+                          {%- if promo_url_1 -%}
+                            </a>
+                          {%- endif -%}
+                        </div>
                     {%- endif -%}
 
                     {%- if promo_image_2 -%}
@@ -170,20 +345,22 @@
                         {%- if promo_url_2 -%}
                           <a href="{{ promo_url_2 }}" class="megamenu__promo-link">
                         {%- endif -%}
-                          <div style="margin: 0 auto; max-width: {{ promo_image_2.width }}px">
-                            <div class="image-wrap aos-animate megamenu__promo-image" style="height: 0; padding-bottom: {{ 100 | divided_by: promo_image_2.aspect_ratio }}%;">
-                              {%- render 'image-element',
-                                img: promo_image_2,
-                                widths: '540, 750, 900',
-                              -%}
-                            </div>
+                        <div style="margin: 0 auto; max-width: {{ promo_image_2.width }}px">
+                          <div
+                            class="image-wrap aos-animate megamenu__promo-image"
+                            style="height: 0; padding-bottom: {{ 100 | divided_by: promo_image_2.aspect_ratio }}%;"
+                          >
+                            {%- render 'image-element', img: promo_image_2, widths: '540, 750, 900' -%}
                           </div>
-                          {%- if promo_heading_2 -%}
-                            <div><strong>{{ promo_heading_2 }}</strong></div>
-                          {%- endif -%}
-                          {%- if promo_text_2 -%}
-                            <div>{{ promo_text_2 }}</div>
-                          {%- endif -%}
+                        </div>
+                        {%- if promo_heading_2 -%}
+                          <div>
+                            <strong>{{ promo_heading_2 }}</strong>
+                          </div>
+                        {%- endif -%}
+                        {%- if promo_text_2 -%}
+                          <div>{{ promo_text_2 }}</div>
+                        {%- endif -%}
                         {%- if promo_url_2 -%}
                           </a>
                         {%- endif -%}

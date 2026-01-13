@@ -15,7 +15,7 @@
     assign sticky_header = true
   endif
 
-  if template_name == 'index' and section.settings.sticky_index
+  if template_name == 'index'
     assign overlay_header = true
   endif
   if template_name contains 'collection' and collection.image and section.settings.sticky_collection
@@ -27,6 +27,318 @@
 {%- render 'cart-drawer' -%}
 
 {%- style -%}
+  /* KIKI Header - New 2-column layout */
+  .kiki-header {
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    height: 80px;
+    background: var(--color-white, #ffffff);
+    overflow: visible;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* Transparent background on home page (overlay mode) */
+  .header-wrapper--overlay .kiki-header {
+    background: transparent;
+  }
+
+  /* White text on overlay header */
+  .header-wrapper--overlay.is-light .kiki-header__announcement-text,
+  .header-wrapper--overlay.is-light .kiki-header__nav-links .site-nav__link,
+  .header-wrapper--overlay.is-light .kiki-header__icon-link,
+  .header-wrapper--overlay.is-light .kiki-header__cart-link .icon {
+    color: #ffffff;
+    stroke: #ffffff;
+  }
+
+  .header-wrapper--overlay.is-light .kiki-header__announcement {
+    border-bottom-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .kiki-header__logo {
+    flex-shrink: 0;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .kiki-header__logo .site-header__logo {
+    margin: 0;
+  }
+
+  .kiki-header__logo .site-header__logo a {
+    padding-top: 0 !important;
+    position: relative;
+    display: block;
+  }
+
+  .kiki-header__logo .site-header__logo img {
+    position: relative;
+    max-height: 60px;
+    width: auto;
+  }
+
+  .kiki-header__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    min-width: 0;
+  }
+
+  .kiki-header__announcement {
+    border-bottom: 1px dashed var(--color-black, #000000);
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    padding: 0 10px;
+  }
+
+  .kiki-header__announcement-spacer {
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .kiki-header__announcement-text {
+    font-family: 'PP Neue Corp Wide', var(--typeHeaderPrimary), sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 1.3px;
+    color: var(--color-black, #000000);
+    text-align: center;
+    white-space: nowrap;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .kiki-header__announcement-icons-spacer {
+    flex: 0 0 200px;
+    max-width: 200px;
+  }
+
+  /* Match announcement row layout to nav row - use same structure */
+  @media screen and (max-width: 1200px) {
+    .kiki-header__announcement-icons-spacer {
+      flex: 0 0 180px;
+      max-width: 180px;
+    }
+  }
+
+  .kiki-header__announcement-text a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .kiki-header__announcement-text a:hover {
+    text-decoration: underline;
+  }
+
+  .kiki-header__nav {
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow: visible;
+    padding: 0 10px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .kiki-header__nav-spacer {
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  .kiki-header__nav-links {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .kiki-header__nav-links .site-nav {
+    display: flex;
+    gap: 50px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .kiki-header__nav-links .site-nav__link {
+    font-family: 'PP Neue Corp Wide', var(--typeHeaderPrimary), sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 1.3px;
+    color: var(--color-black, #000000);
+    text-decoration: none;
+    padding: 0;
+  }
+
+  .kiki-header__nav-links .site-nav__link:hover {
+    opacity: 0.7;
+  }
+
+  .kiki-header__icons {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .kiki-header__icons .kiki-header__icon-link {
+    font-family: 'PP Neue Corp Wide', var(--typeHeaderPrimary), sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 1.3px;
+    color: var(--color-black, #000000);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .kiki-header__icons .kiki-header__icon-link:hover {
+    opacity: 0.7;
+  }
+
+  .kiki-header__icons .kiki-header__cart-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .kiki-header__icons .kiki-header__cart-link .icon {
+    width: 14px;
+    height: 18px;
+    stroke: var(--color-black, #000000);
+    fill: none;
+    stroke-width: var(--iconWeight, 2px);
+  }
+
+  .kiki-header__icons .cart-link__bubble {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--colorCartDot, #ff4f33);
+    display: none;
+  }
+
+  .kiki-header__icons .cart-link__bubble--visible {
+    display: block;
+  }
+
+  /* Mobile hamburger in new header */
+  .kiki-header__mobile-toggle {
+    display: none;
+  }
+
+  .kiki-header__mobile-toggle .icon {
+    width: 24px;
+    height: 24px;
+    stroke: var(--color-black, #000000);
+    fill: none;
+    stroke-width: var(--iconWeight, 2px);
+  }
+
+  /* Mobile responsive */
+  @media screen and (max-width: 768px) {
+    .kiki-header {
+      height: auto;
+      min-height: 60px;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .kiki-header__logo {
+      padding: 8px 15px;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .kiki-header__logo .site-header__logo img {
+      max-height: 40px;
+    }
+
+    .kiki-header__mobile-toggle {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .kiki-header__mobile-toggle button,
+    .kiki-header__mobile-toggle a {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kiki-header__content {
+      display: none;
+    }
+
+    .kiki-header__announcement--mobile {
+      display: flex;
+      border-bottom: 1px dashed var(--color-black, #000000);
+      padding: 8px 15px;
+      justify-content: center;
+    }
+
+    .kiki-header__announcement--mobile .kiki-header__announcement-text {
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+  }
+
+  @media screen and (min-width: 769px) {
+    .kiki-header__announcement--mobile {
+      display: none;
+    }
+  }
+
+  /* Hide old announcement bar section (now integrated into header) */
+  [id*="__announcement-bar"] {
+    display: none !important;
+  }
+
+  /* Legacy styles for dropdowns - keep existing functionality */
+  .kiki-header__nav-links {
+    position: relative;
+  }
+
+  .kiki-header__nav-links .site-nav__item {
+    position: relative;
+  }
+
+  .kiki-header__nav-links .site-nav__dropdown,
+  .kiki-header__nav-links .megamenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    background-color: var(--colorBody, #ffffff);
+  }
+
+  .kiki-header__nav-links .site-nav--is-megamenu .megamenu {
+    left: auto;
+    right: 0;
+  }
+
   .site-nav__link,
   .site-nav__dropdown-link {
     font-size: {{ settings.type_navigation_size }}px;
@@ -39,12 +351,29 @@
     }
   {%- endif -%}
 
-  {%- if settings.color_header == settings.color_body_bg or settings.color_body_bg contains settings.color_header -%}
-    .site-header {
-      border-bottom: 1px solid;
-      border-bottom-color: {{ settings.color_borders }};
-    }
-  {%- endif -%}
+  /* Keep site-header for search container positioning */
+  .site-header {
+    position: relative;
+    z-index: 10;
+    padding: 0;
+  }
+
+  .site-header--stuck {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  /* Home page hero - 100vh and hide button */
+  .template-index .hero {
+    height: 100vh !important;
+  }
+
+  .template-index .hero__link {
+    display: none !important;
+  }
 {%- endstyle -%}
 
 <div data-section-id="{{ section.id }}" data-section-type="header">
@@ -53,74 +382,128 @@
       id="SiteHeader"
       class="site-header{% if settings.type_navigation_style %} site-header--heading-style{% endif %}"
       data-sticky="{{ sticky_header }}"
-      data-overlay="{{ overlay_header }}">
-      <div class="page-width">
-        <div
-          class="header-layout header-layout--{{ section.settings.main_menu_alignment }}"
-          data-logo-align="{{ logo_alignment }}">
+      data-overlay="{{ overlay_header }}"
+    >
+      {%- comment -%} KIKI Header - New 2-column layout {%- endcomment -%}
+      <div class="kiki-header">
+        {%- comment -%} Logo Column {%- endcomment -%}
+        <div class="kiki-header__logo">
+          {%- render 'header-logo-block', section: section -%}
 
-          {%- if logo_alignment == 'left' -%}
-            <div class="header-item header-item--logo">
-              {%- render 'header-logo-block', section: section -%}
-            </div>
-          {%- endif -%}
-
-          {%- if logo_alignment == 'left' and section.settings.main_menu_alignment != 'left-drawer' -%}
-            <div class="header-item header-item--navigation{% if section.settings.main_menu_alignment == 'left-center' %} text-center{% endif %}" role="navigation" aria-label="Primary">
-              {%- render 'header-desktop-nav', section: section, main_menu: main_menu, hover_menu: section.settings.hover_menu -%}
-            </div>
-          {%- endif -%}
-
-          {%- if logo_alignment == 'center' -%}
-            <div class="header-item header-item--left header-item--navigation" role="navigation" aria-label="Primary">
-              {%- if section.settings.main_menu_alignment == 'center' or section.settings.main_menu_alignment == 'center-split' -%}
-                {%- if settings.search_enable -%}
-                  <div class="site-nav medium-down--hide">
-                    <a href="{{ routes.search_url }}" class="site-nav__link site-nav__link--icon js-search-header js-no-transition">
-                      <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-search" viewBox="0 0 64 64"><title>icon-search</title><path d="M47.16 28.58A18.58 18.58 0 1 1 28.58 10a18.58 18.58 0 0 1 18.58 18.58ZM54 54 41.94 42"/></svg>
-                      <span class="icon__fallback-text">{{ 'general.search.title' | t }}</span>
-                    </a>
-                  </div>
-                {%- endif -%}
-              {%- endif -%}
-
-              {%- if section.settings.main_menu_alignment == 'center-left' -%}
-                {%- render 'header-desktop-nav', section: section, main_menu: main_menu, hover_menu: section.settings.hover_menu -%}
-              {%- endif -%}
-
-              <div class="site-nav{% unless section.settings.main_menu_alignment == 'center-drawer' %} large-up--hide{% endunless %}">
-                <button
-                  type="button"
-                  class="site-nav__link site-nav__link--icon js-drawer-open-nav"
-                  aria-controls="NavDrawer">
-                  <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-hamburger" viewBox="0 0 64 64"><title>icon-hamburger</title><path d="M7 15h51M7 32h43M7 49h51"/></svg>
-                  <span class="icon__fallback-text">{{ 'general.drawers.navigation' | t }}</span>
-                </button>
-              </div>
-            </div>
-
-            {%- if section.settings.main_menu_alignment == 'center-split' -%}
-              {%- render 'header-split-nav', main_menu: main_menu, section: section, hover_menu: section.settings.hover_menu-%}
-            {%- endif -%}
-
-            {%- if section.settings.main_menu_alignment != 'center-split' -%}
-              <div class="header-item header-item--logo">
-                {%- render 'header-logo-block', section: section -%}
-              </div>
-            {%- endif -%}
-          {%- endif -%}
-
-          <div class="header-item header-item--icons">
-            {%- render 'header-icons', section: section -%}
+          {%- comment -%} Mobile icons {%- endcomment -%}
+          <div class="kiki-header__mobile-toggle">
+            <a href="{{ routes.cart_url }}" class="js-drawer-open-cart js-no-transition" aria-controls="CartDrawer">
+              <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-bag" viewBox="0 0 64 64">
+                <path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/><path d="M14.74 18h36.51l3.59 36.73h-43.7z"/>
+              </svg>
+              <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+              <span class="cart-link__bubble{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}"></span>
+            </a>
+            <button
+              type="button"
+              class="js-drawer-open-nav"
+              aria-controls="NavDrawer"
+            >
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                role="presentation"
+                class="icon icon-hamburger"
+                viewBox="0 0 64 64"
+              >
+                <path d="M7 15h51M7 32h43M7 49h51"/>
+              </svg>
+              <span class="visually-hidden">{{ 'general.drawers.navigation' | t }}</span>
+            </button>
           </div>
         </div>
 
-        {%- if section.settings.main_menu_alignment == 'center' -%}
-          <div class="text-center" role="navigation" aria-label="Primary">
-            {%- render 'header-desktop-nav', section: section, main_menu: main_menu, hover_menu: section.settings.hover_menu -%}
+        {%- comment -%} Content Column (Announcement + Nav) {%- endcomment -%}
+        <div class="kiki-header__content">
+          {%- comment -%} Announcement Bar Row {%- endcomment -%}
+          <div class="kiki-header__announcement">
+            <div class="kiki-header__announcement-spacer"></div>
+            <div class="kiki-header__announcement-text">
+              {%- if section.settings.announcement_link != blank -%}
+                <a href="{{ section.settings.announcement_link }}">
+                  {{ section.settings.announcement_text }}
+                </a>
+              {%- else -%}
+                {{ section.settings.announcement_text }}
+              {%- endif -%}
+            </div>
+            <div class="kiki-header__announcement-icons-spacer"></div>
           </div>
-        {%- endif -%}
+
+          {%- comment -%} Navigation Row {%- endcomment -%}
+          <div class="kiki-header__nav" role="navigation" aria-label="Primary">
+            <div class="kiki-header__nav-spacer"></div>
+
+            <div class="kiki-header__nav-links">
+              {%- render 'header-desktop-nav',
+                section: section,
+                main_menu: main_menu,
+                hover_menu: section.settings.hover_menu
+              -%}
+            </div>
+
+            <div class="kiki-header__icons">
+              {%- comment -%} Currency selector {%- endcomment -%}
+              {%- if localization.available_countries.size > 1 -%}
+                <a href="#" class="kiki-header__icon-link" id="kiki-currency-toggle">
+                  {{ cart.currency.iso_code }}
+                  {{ cart.currency.symbol }}
+                </a>
+              {%- else -%}
+                <span class="kiki-header__icon-link">
+                  {{- cart.currency.symbol }}
+                  {{ cart.currency.iso_code -}}
+                </span>
+              {%- endif -%}
+
+              {%- comment -%} Login link {%- endcomment -%}
+              {%- if shop.customer_accounts_enabled -%}
+                <a href="{{ routes.account_url }}" class="kiki-header__icon-link">
+                  {%- if customer -%}
+                    {{ 'layout.customer.account' | t }}
+                  {%- else -%}
+                    {{ 'layout.customer.log_in' | t }}
+                  {%- endif -%}
+                </a>
+              {%- endif -%}
+
+              {%- comment -%} Cart icon {%- endcomment -%}
+              <a
+                href="{{ routes.cart_url }}"
+                class="kiki-header__cart-link js-drawer-open-cart js-no-transition"
+                aria-controls="CartDrawer"
+              >
+                <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-bag" viewBox="0 0 64 64">
+                  <path d="M25 26c0-15.79 3.57-20 8-20s8 4.21 8 20"/><path d="M14.74 18h36.51l3.59 36.73h-43.7z"/>
+                </svg>
+                <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+                <span
+                  class="cart-link__bubble{% if cart.item_count > 0 %} cart-link__bubble--visible{% endif %}"
+                ></span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {%- comment -%} Mobile announcement bar {%- endcomment -%}
+      <div class="kiki-header__announcement--mobile">
+        <div class="kiki-header__announcement-text">
+          {%- if section.settings.announcement_link != blank -%}
+            <a href="{{ section.settings.announcement_link }}">
+              {{ section.settings.announcement_text }}
+            </a>
+          {%- else -%}
+            {{ section.settings.announcement_text }}
+          {%- endif -%}
+        </div>
+      </div>
+
       <div class="site-header__search-container">
         <div class="site-header__search">
           <div class="page-width">
@@ -150,6 +533,21 @@
 {
   "name": "t:sections.header.name",
   "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "text",
+      "id": "announcement_text",
+      "label": "Announcement text",
+      "default": "Free Shipping for domestic orders over $250"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link",
+      "label": "Announcement link"
+    },
     {
       "type": "header",
       "content": "t:sections.header.settings.header_logo"

@@ -13,4 +13,28 @@
   {{ base_font_bold | font_face: font_display: 'swap' }}
   {{ base_font_italic | font_face: font_display: 'swap' }}
   {{ base_font_bold_italic | font_face: font_display: 'swap' }}
+
+  /* Custom Fonts for KIKI Brand Style Guide */
+
+  /* Work Sans - Available from Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap');
+
+  /* PP Neue Corp - Custom Font */
+  /* Extended Medium - Used for H2 and H3 headings */
+  @font-face {
+    font-family: 'PP Neue Corp Extended';
+    src: url('{{ "fonts/PPNeueCorp-ExtendedMedium-BF6732c5c257d09.otf" | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  /* Wide Medium - Used for H5 headings */
+  @font-face {
+    font-family: 'PP Neue Corp Wide';
+    src: url('{{ "fonts/PPNeueCorp-WideMedium-BF6732c5c45b6c4.otf" | asset_url }}') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
 {%- endstyle -%}

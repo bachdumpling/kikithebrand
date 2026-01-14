@@ -13,8 +13,8 @@
   #FeaturedCollectionNew-{{ section.id }} .product-card-new-grid {
     display: grid;
     grid-template-columns: repeat({{ per_row }}, 1fr);
-    gap: 20px;
-    padding: 0 20px;
+    gap: 2px;
+    width: 100%;
   }
 
   @media only screen and (max-width: 989px) {
@@ -26,8 +26,6 @@
   @media only screen and (max-width: 749px) {
     #FeaturedCollectionNew-{{ section.id }} .product-card-new-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-      padding: 0 15px;
     }
   }
 
@@ -62,46 +60,43 @@
     </div>
   {% endif %}
 
-  <div class="page-width">
-    <div class="product-card-new-grid">
-      {% if section.settings.home_featured_products == blank
-        or collections[section.settings.home_featured_products].empty?
-        or collections[section.settings.home_featured_products].products_count == 0
-      %}
-        {%- for i in (1..product_limit) -%}
-          <div class="product-card-new" data-aos="row-of-{{ per_row }}">
-            <div class="product-card-new__image-wrapper">
-              <div class="product-card-new__image-container">
-                <div class="product-card-new__placeholder">
-                  {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
-                  {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
-                </div>
+  <div class="product-card-new-grid">
+    {% if section.settings.home_featured_products == blank
+      or collections[section.settings.home_featured_products].empty?
+      or collections[section.settings.home_featured_products].products_count == 0
+    %}
+      {%- for i in (1..product_limit) -%}
+        <div class="product-card-new" data-aos="row-of-{{ per_row }}">
+          <div class="product-card-new__image-wrapper">
+            <div class="product-card-new__image-container">
+              <div class="product-card-new__placeholder">
+                {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+                {{ 'product-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
               </div>
             </div>
-            <div class="product-card-new__meta">
-              <span class="product-card-new__meta-link">
-                <span class="product-card-new__title">{{ 'home_page.onboarding.product_title' | t }}</span>
-                <span class="product-card-new__price">$29</span>
-              </span>
-            </div>
           </div>
-        {%- endfor -%}
-
-      {% else %}
-        {%- for product in collections[section.settings.home_featured_products].products limit: product_limit -%}
-          {%- render 'product-card-new', product: product, collection: collection, per_row: per_row -%}
-        {%- endfor -%}
-      {% endif %}
-    </div>
-
-    {% if section.settings.view_all and section.settings.rows > 1 %}
-      <div class="text-center" style="margin-top: 30px;">
-        <a href="{{ collections[section.settings.home_featured_products].url }}" class="btn">
-          {{- 'collections.general.all_of_collection' | t -}}
-        </a>
-      </div>
+          <div class="product-card-new__meta">
+            <span class="product-card-new__meta-link">
+              <span class="product-card-new__title">{{ 'home_page.onboarding.product_title' | t }}</span>
+              <span class="product-card-new__price">$29</span>
+            </span>
+          </div>
+        </div>
+      {%- endfor -%}
+    {% else %}
+      {%- for product in collections[section.settings.home_featured_products].products limit: product_limit -%}
+        {%- render 'product-card-new', product: product, collection: collection, per_row: per_row -%}
+      {%- endfor -%}
     {% endif %}
   </div>
+
+  {% if section.settings.view_all and section.settings.rows > 1 %}
+    <div class="page-width text-center" style="margin-top: 30px;">
+      <a href="{{ collections[section.settings.home_featured_products].url }}" class="btn">
+        {{- 'collections.general.all_of_collection' | t -}}
+      </a>
+    </div>
+  {% endif %}
 </div>
 
 {%- if section.settings.divider -%}</div>{%- endif -%}

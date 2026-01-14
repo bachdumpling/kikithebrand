@@ -13367,13 +13367,13 @@ iframe.zoid-component-frame{
 
 .product-card-new {
   position: relative;
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 10px;
   width: 100%;
-  max-width: 384px;
+  min-width: 280px;
   border-radius: 1px;
   overflow: hidden;
 }
@@ -13701,10 +13701,6 @@ iframe.zoid-component-frame{
     max-width: 100%;
   }
 
-  .product-card-new__meta-link {
-    padding: 0 15px;
-  }
-
   .product-card-new__title,
   .product-card-new__price {
     font-size: 11px;
@@ -13829,11 +13825,18 @@ iframe.zoid-component-frame{
 .image-banner-text__heading {
   font-family: 'PP Neue Corp Extended', var(--typeHeaderPrimary), var(--typeHeaderFallback);
   font-weight: 500;
+  font-size: 100px !important;
   line-height: 1;
   letter-spacing: 0.02em;
   text-align: center;
   margin: 0;
   text-transform: uppercase;
+}
+
+@media only screen and (max-width: 749px) {
+  .image-banner-text__heading {
+    font-size: 40px !important;
+  }
 }
 
 /* ============================================================================

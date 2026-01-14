@@ -2,13 +2,23 @@
   <div class="footer__menu-block">
     {% if block.settings.show_footer_title %}
       <h2 class="footer__title">
-        {{ linklists[block.settings.menu].title }}
+        {% if block.settings.title != blank %}
+          {{ block.settings.title }}
+        {% else %}
+          {{ linklists[block.settings.menu].title }}
+        {% endif %}
       </h2>
     {% endif %}
     <ul class="no-bullets site-footer__linklist">
       {%- for link in linklists[block.settings.menu].links -%}
+        {%- assign link_title_lower = link.title | downcase -%}
+        {%- assign first_char = link_title_lower | slice: 0 | upcase -%}
+        {%- assign rest_chars = link_title_lower | slice: 1, link_title_lower.size -%}
         <li>
-          <a href="{{ link.url }}">{{ link.title }}</a>
+          <a href="{{ link.url }}">
+            {{- first_char -}}
+            {{- rest_chars -}}
+          </a>
         </li>
       {%- endfor -%}
     </ul>

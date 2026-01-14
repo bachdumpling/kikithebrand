@@ -25,7 +25,7 @@
           "type": "menu",
           "settings": {
             "show_footer_title": true,
-            "menu": "footer",
+            "menu": "kiki",
             "container_width": 20
           }
         },
@@ -33,7 +33,15 @@
           "type": "menu",
           "settings": {
             "show_footer_title": true,
-            "menu": "main-menu",
+            "menu": "our-world",
+            "container_width": 20
+          }
+        },
+        "footer-4": {
+          "type": "menu",
+          "settings": {
+            "show_footer_title": true,
+            "menu": "customer-care",
             "container_width": 20
           }
         },
@@ -55,12 +63,7 @@
           }
         }
       },
-      "block_order": [
-        "footer-3",
-        "footer-1",
-        "footer-2",
-        "footer-0"
-      ],
+      "block_order": ["footer-3", "footer-1", "footer-4", "footer-2", "footer-0"],
       "settings": {
         "show_locale_selector": true,
         "show_currency_selector": true,
@@ -72,8 +75,5 @@
       }
     }
   },
-  "order": [
-    "footer-promotions",
-    "footer"
-  ]
+  "order": ["footer-promotions", "footer"]
 }

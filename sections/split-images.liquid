@@ -1,0 +1,215 @@
+{%- comment -%}
+  Split Images Section
+  Two side-by-side images, each 50% width.
+  Great for showcasing two collections or looks.
+{%- endcomment -%}
+
+{%- liquid
+  assign section_height = section.settings.height | default: 700
+  assign mobile_height = section.settings.mobile_height | default: 350
+  assign gap = section.settings.gap | default: 2
+-%}
+
+{% style %}
+  .split-images--{{ section.id }} {
+    height: {{ section_height }}px;
+    gap: {{ gap }}px;
+  }
+
+  .split-images--{{ section.id }} .split-images__item {
+    height: {{ section_height }}px;
+  }
+
+  @media only screen and (max-width: 749px) {
+    .split-images--{{ section.id }} {
+      height: auto;
+      flex-direction: column;
+    }
+
+    .split-images--{{ section.id }} .split-images__item {
+      height: {{ mobile_height }}px;
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="split-images split-images--{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="split-images"
+>
+  {%- comment -%} Left Image {%- endcomment -%}
+  <div class="split-images__item split-images__item--left">
+    {%- if section.settings.left_link != blank -%}
+      <a href="{{ section.settings.left_link }}" class="split-images__link" aria-label="{{ section.settings.left_label | default: 'View collection' }}">
+    {%- endif -%}
+
+    <div class="split-images__media">
+      {%- if section.settings.left_image != blank -%}
+        {%- render 'image-element',
+          img: section.settings.left_image,
+          img_width: 1200,
+          loading: section.settings.lazyload_images,
+          classes: 'split-images__img'
+        -%}
+      {%- else -%}
+        <div class="split-images__placeholder">
+          {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.left_text != blank -%}
+      <div class="split-images__overlay">
+        <span class="split-images__text">{{ section.settings.left_text }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.left_link != blank -%}
+      </a>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Right Image {%- endcomment -%}
+  <div class="split-images__item split-images__item--right">
+    {%- if section.settings.right_link != blank -%}
+      <a href="{{ section.settings.right_link }}" class="split-images__link" aria-label="{{ section.settings.right_label | default: 'View collection' }}">
+    {%- endif -%}
+
+    <div class="split-images__media">
+      {%- if section.settings.right_image != blank -%}
+        {%- render 'image-element',
+          img: section.settings.right_image,
+          img_width: 1200,
+          loading: section.settings.lazyload_images,
+          classes: 'split-images__img'
+        -%}
+      {%- else -%}
+        <div class="split-images__placeholder">
+          {{ 'collection-2' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.right_text != blank -%}
+      <div class="split-images__overlay">
+        <span class="split-images__text">{{ section.settings.right_text }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.right_link != blank -%}
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Split Images",
+  "class": "index-section--flush",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left image"
+    },
+    {
+      "type": "image_picker",
+      "id": "left_image",
+      "label": "Left image"
+    },
+    {
+      "type": "text",
+      "id": "left_text",
+      "label": "Left text overlay",
+      "info": "Optional text to display over image"
+    },
+    {
+      "type": "url",
+      "id": "left_link",
+      "label": "Left link"
+    },
+    {
+      "type": "text",
+      "id": "left_label",
+      "label": "Left link label",
+      "default": "View collection",
+      "info": "For accessibility"
+    },
+    {
+      "type": "header",
+      "content": "Right image"
+    },
+    {
+      "type": "image_picker",
+      "id": "right_image",
+      "label": "Right image"
+    },
+    {
+      "type": "text",
+      "id": "right_text",
+      "label": "Right text overlay",
+      "info": "Optional text to display over image"
+    },
+    {
+      "type": "url",
+      "id": "right_link",
+      "label": "Right link"
+    },
+    {
+      "type": "text",
+      "id": "right_label",
+      "label": "Right link label",
+      "default": "View collection",
+      "info": "For accessibility"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Desktop height",
+      "default": 700,
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "default": 350,
+      "min": 200,
+      "max": 500,
+      "step": 25,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Gap between images",
+      "default": 2,
+      "min": 0,
+      "max": 20,
+      "step": 1,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "lazyload_images",
+      "label": "Lazy load images",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Split Images"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

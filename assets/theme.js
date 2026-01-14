@@ -8160,6 +8160,220 @@ if (console && console.log) {
   });
 
   /*============================================================================
+    Size Selector Component
+  ==============================================================================*/
+  theme.SizeSelector = (function() {
+    var selectors = {
+      container: '[data-size-selector]',
+      btn: '[data-size-btn]',
+      input: '.size-selector__input',
+      variantSelect: '[data-size-variant-select]',
+      variantsData: '[data-size-variants]',
+      inventory: '[data-size-inventory]'
+    };
+
+    function SizeSelector(container) {
+      this.container = container;
+      this.productId = container.dataset.productId;
+      this.buttons = container.querySelectorAll(selectors.btn);
+      this.variantSelect = container.querySelector(selectors.variantSelect);
+      this.inventoryEl = container.querySelector(selectors.inventory);
+      
+      var dataEl = container.querySelector(selectors.variantsData);
+      if (dataEl) {
+        try {
+          this.variantData = JSON.parse(dataEl.textContent);
+        } catch(e) {
+          this.variantData = null;
+        }
+      }
+
+      this.init();
+    }
+
+    SizeSelector.prototype = Object.assign({}, SizeSelector.prototype, {
+      init: function() {
+        this.buttons.forEach(function(btn) {
+          btn.addEventListener('click', this.onSizeClick.bind(this));
+        }.bind(this));
+      },
+
+      onSizeClick: function(evt) {
+        var btn = evt.currentTarget;
+        var input = btn.querySelector(selectors.input);
+        
+        if (btn.classList.contains('size-selector__btn--disabled')) {
+          evt.preventDefault();
+          return;
+        }
+
+        // Update selected state
+        this.buttons.forEach(function(b) {
+          b.classList.remove('size-selector__btn--selected');
+        });
+        btn.classList.add('size-selector__btn--selected');
+
+        // Update hidden select
+        var variantId = btn.dataset.variantId;
+        if (this.variantSelect && variantId) {
+          this.variantSelect.value = variantId;
+        }
+
+        // Update inventory display
+        this.updateInventory(variantId);
+
+        // Dispatch custom event
+        this.container.dispatchEvent(new CustomEvent('sizeSelector:changed', {
+          detail: {
+            variantId: variantId,
+            productId: this.productId
+          },
+          bubbles: true
+        }));
+      },
+
+      updateInventory: function(variantId) {
+        if (!this.inventoryEl || !this.variantData) return;
+
+        var variant = this.variantData.variants.find(function(v) {
+          return v.id == variantId;
+        });
+
+        if (variant && variant.available && variant.inventory > 0 && variant.inventory <= 5) {
+          this.inventoryEl.innerHTML = '<span class="size-selector__low-stock">only ' + variant.inventory + ' left</span>';
+        } else {
+          this.inventoryEl.innerHTML = '';
+        }
+      }
+    });
+
+    return SizeSelector;
+  })();
+
+  /*============================================================================
+    Quick Add Product Card
+  ==============================================================================*/
+  theme.QuickAddCard = (function() {
+    var selectors = {
+      card: '[data-product-card]',
+      form: '[data-quick-add-form]',
+      addBtn: '[data-add-to-cart]',
+      addBtnText: '[data-add-to-cart-text]',
+      sizeSelector: '[data-size-selector]'
+    };
+
+    function QuickAddCard(container) {
+      this.container = container;
+      this.form = container.querySelector(selectors.form);
+      this.addBtn = container.querySelector(selectors.addBtn);
+      this.sizeSelector = container.querySelector(selectors.sizeSelector);
+
+      if (!this.form) return;
+
+      this.init();
+    }
+
+    QuickAddCard.prototype = Object.assign({}, QuickAddCard.prototype, {
+      init: function() {
+        // Initialize size selector if present
+        if (this.sizeSelector) {
+          new theme.SizeSelector(this.sizeSelector);
+        }
+
+        // Handle form submission
+        this.form.addEventListener('submit', this.onSubmit.bind(this));
+      },
+
+      onSubmit: function(evt) {
+        evt.preventDefault();
+
+        if (this.isLoading) return;
+        this.isLoading = true;
+
+        // Show loading state
+        if (this.addBtn) {
+          this.addBtn.classList.add('btn--loading');
+        }
+
+        var formData = new FormData(this.form);
+
+        fetch(theme.routes.cartAdd, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        })
+        .then(function(response) { return response.json(); })
+        .then(function(data) {
+          this.isLoading = false;
+          
+          if (this.addBtn) {
+            this.addBtn.classList.remove('btn--loading');
+          }
+
+          if (data.status === 422) {
+            // Error - show message
+            this.showError(data.description);
+          } else {
+            // Success
+            this.onSuccess(data);
+          }
+        }.bind(this))
+        .catch(function(error) {
+          this.isLoading = false;
+          if (this.addBtn) {
+            this.addBtn.classList.remove('btn--loading');
+          }
+          console.error('Quick add error:', error);
+        }.bind(this));
+      },
+
+      onSuccess: function(product) {
+        // Dispatch events for cart drawer/page to handle
+        document.dispatchEvent(new CustomEvent('ajaxProduct:added', {
+          detail: { product: product }
+        }));
+
+        // Trigger cart open if using drawer
+        if (theme.settings.cartType === 'drawer') {
+          document.dispatchEvent(new CustomEvent('cart:open'));
+        } else {
+          window.location = theme.routes.cartPage;
+        }
+      },
+
+      showError: function(message) {
+        // Brief visual feedback - could be enhanced with a toast notification
+        if (this.addBtn) {
+          var btnText = this.addBtn.querySelector(selectors.addBtnText);
+          var originalText = btnText ? btnText.textContent : '';
+          
+          if (btnText) {
+            btnText.textContent = message || 'Error';
+            setTimeout(function() {
+              btnText.textContent = originalText;
+            }, 2000);
+          }
+        }
+      }
+    });
+
+    return QuickAddCard;
+  })();
+
+  // Initialize all quick add cards
+  theme.initQuickAddCards = function() {
+    var cards = document.querySelectorAll('[data-product-card]');
+    cards.forEach(function(card) {
+      if (!card.hasAttribute('data-quick-add-initialized')) {
+        new theme.QuickAddCard(card);
+        card.setAttribute('data-quick-add-initialized', 'true');
+      }
+    });
+  };
+
+  /*============================================================================
     Things that require DOM to be ready
   ==============================================================================*/
   function DOMready(callback) {
@@ -8196,6 +8410,7 @@ if (console && console.log) {
 
     theme.initGlobals();
     theme.initQuickShop();
+    theme.initQuickAddCards();
     theme.rteInit();
     theme.articleImages();
 

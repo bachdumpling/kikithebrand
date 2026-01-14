@@ -16,3 +16,9 @@ shopify theme push --store kiki-kini.myshopify.com --theme 156762931414
 ```bash
 shopify theme dev --store kiki-kini.myshopify.com
 ```
+
+## Pull
+
+```bash
+shopify theme pull --store kiki-kini.myshopify.com --theme 156762931414
+```

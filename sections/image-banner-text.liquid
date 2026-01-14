@@ -1,0 +1,156 @@
+{%- comment -%}
+  Image Banner with Text
+  Full-width image with large centered text overlay at the bottom.
+  Used for collection callouts like "KNITS GALORE" and "SHERPA".
+{%- endcomment -%}
+
+{%- liquid
+  assign section_height = section.settings.height | default: 700
+  assign mobile_height = section.settings.mobile_height | default: 400
+  assign font_size = section.settings.font_size | default: 100
+  assign mobile_font_size = section.settings.mobile_font_size | default: 40
+  assign text_color = section.settings.text_color | default: '#ffffff'
+-%}
+
+{% style %}
+  .image-banner-text--{{ section.id }} {
+    height: {{ section_height }}px;
+  }
+
+  .image-banner-text--{{ section.id }} .image-banner-text__heading {
+    color: {{ text_color }};
+    font-size: {{ font_size }}px;
+  }
+
+  @media only screen and (max-width: 749px) {
+    .image-banner-text--{{ section.id }} {
+      height: {{ mobile_height }}px;
+    }
+
+    .image-banner-text--{{ section.id }} .image-banner-text__heading {
+      font-size: {{ mobile_font_size }}px;
+    }
+  }
+{% endstyle %}
+
+<div
+  class="image-banner-text image-banner-text--{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="image-banner-text"
+>
+  {%- if section.settings.link != blank -%}
+    <a href="{{ section.settings.link }}" class="image-banner-text__link">
+  {%- endif -%}
+
+  <div class="image-banner-text__media">
+    {%- if section.settings.image != blank -%}
+      {%- render 'image-element',
+        img: section.settings.image,
+        img_width: 2400,
+        loading: section.settings.lazyload_images,
+        classes: 'image-banner-text__img'
+      -%}
+    {%- else -%}
+      <div class="image-banner-text__placeholder">
+        {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="image-banner-text__content">
+    {%- if section.settings.heading != blank -%}
+      <h2 class="image-banner-text__heading">
+        {{ section.settings.heading }}
+      </h2>
+    {%- endif -%}
+  </div>
+
+  {%- if section.settings.link != blank -%}
+    </a>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Image Banner + Text",
+  "class": "index-section--flush",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "COLLECTION NAME"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Desktop font size",
+      "default": 100,
+      "min": 50,
+      "max": 150,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_font_size",
+      "label": "Mobile font size",
+      "default": 40,
+      "min": 24,
+      "max": 80,
+      "step": 2,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Desktop height",
+      "default": 700,
+      "min": 400,
+      "max": 900,
+      "step": 50,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "mobile_height",
+      "label": "Mobile height",
+      "default": 400,
+      "min": 250,
+      "max": 600,
+      "step": 25,
+      "unit": "px"
+    },
+    {
+      "type": "checkbox",
+      "id": "lazyload_images",
+      "label": "Lazy load image",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image Banner + Text"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["footer", "header", "custom.popups"]
+  }
+}
+{% endschema %}

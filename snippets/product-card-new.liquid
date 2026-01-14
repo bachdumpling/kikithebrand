@@ -1,0 +1,176 @@
+{%- comment -%}
+  Product Card New
+  A modern product card with hover quick-add overlay for size selection and add-to-cart.
+
+  Parameters:
+  - product: The product object (required)
+  - collection: The current collection for URL context (optional)
+  - per_row: Products per row for grid sizing (optional, default: 4)
+  - sizes: Custom image sizes attribute (optional)
+  - lazy_load: Whether to lazy load images (optional, default: true)
+{%- endcomment -%}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign on_sale = false
+  if product.compare_at_price > product.price
+    assign on_sale = true
+  endif
+
+  # Generate unique form ID for this card
+  assign form_id = 'product-card-form-' | append: product.id | append: '-' | append: section.id
+
+  # Check if product has size options
+  assign has_size_option = false
+  assign size_trigger = 'products.general.size_trigger' | t | downcase
+  for option in product.options_with_values
+    assign downcased_option = option.name | downcase
+    if downcased_option contains size_trigger or downcased_option == 'size'
+      assign has_size_option = true
+      break
+    endif
+  endfor
+
+  # Default lazy load to true
+  unless lazy_load == false
+    assign lazy_load = true
+  endunless
+
+  # Image sizing
+  assign sizeVariable = per_row | default: 4
+  assign fallback = 'variable'
+-%}
+
+<div
+  class="product-card-new"
+  data-product-card
+  data-product-id="{{ product.id }}"
+  data-product-handle="{{ product.handle }}"
+>
+  <div class="product-card-new__image-wrapper">
+    {%- comment -%} Product tags (sale, sold out, custom) {%- endcomment -%}
+    {%- if product.metafields.theme.label and product.metafields.theme.label != blank -%}
+      <div class="product-card-new__tag product-card-new__tag--custom">
+        {{ product.metafields.theme.label.value }}
+      </div>
+    {%- else -%}
+      {%- unless product.available -%}
+        <div class="product-card-new__tag product-card-new__tag--sold-out">
+          {{ 'products.product.sold_out' | t }}
+        </div>
+      {%- endunless -%}
+      {%- if on_sale and product.available and settings.product_save_amount -%}
+        <div class="product-card-new__tag product-card-new__tag--sale">
+          {%- if settings.product_save_type == 'dollar' -%}
+            {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | money | remove: '.00' }}{% endcapture %}
+          {%- else -%}
+            {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round }}%{% endcapture %}
+          {%- endif -%}
+          {{ 'products.general.save_html' | t: saved_amount: saved_amount }}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- comment -%} Product Image Link {%- endcomment -%}
+    <a
+      href="{{ product.url | within: collection }}"
+      class="product-card-new__image-link"
+      aria-label="{{ product.title | escape }}"
+    >
+      <div class="product-card-new__image-container">
+        {%- if product.featured_media != blank -%}
+          {%- render 'image-element',
+            img: product.featured_media.preview_image,
+            sizes: sizes,
+            sizeVariable: sizeVariable,
+            fallback: fallback,
+            widths: '360, 540, 720, 900, 1080',
+            loading: lazy_load,
+            classes: 'product-card-new__image'
+          -%}
+        {%- else -%}
+          <div class="product-card-new__placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%} Secondary image on hover (optional) {%- endcomment -%}
+        {%- if settings.product_hover_image and product.media.size > 1 -%}
+          <div class="product-card-new__image-secondary">
+            {%- render 'image-element',
+              img: product.media[1].preview_image,
+              sizes: sizes,
+              sizeVariable: sizeVariable,
+              fallback: fallback,
+              widths: '360, 540, 720, 900',
+              loading: 'lazy',
+              classes: 'product-card-new__image'
+            -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </a>
+
+    {%- comment -%} Quick Add Overlay - Only show if product is available {%- endcomment -%}
+    {%- if product.available -%}
+      <div class="product-card-new__quick-add" data-quick-add-overlay>
+        {%- form 'product',
+          product,
+          id: form_id,
+          class: 'product-card-new__form',
+          data-product-form: '',
+          data-quick-add-form: ''
+        -%}
+          <div class="product-card-new__quick-add-inner">
+            {%- if has_size_option -%}
+              {%- render 'size-selector',
+                product: product,
+                form_id: form_id,
+                compact: true,
+                show_inventory: true,
+                selected_variant: current_variant
+              -%}
+            {%- else -%}
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
+            {%- endif -%}
+
+            <button
+              type="submit"
+              name="add"
+              class="product-card-new__add-btn"
+              data-add-to-cart
+              {% unless current_variant.available %}
+                disabled
+              {% endunless %}
+            >
+              <span data-add-to-cart-text>
+                {%- if current_variant.available -%}
+                  {{ 'products.product.add_to_cart' | t }}
+                {%- else -%}
+                  {{ 'products.product.sold_out' | t }}
+                {%- endif -%}
+              </span>
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- comment -%} Product Meta (Name + Price) {%- endcomment -%}
+  <div class="product-card-new__meta">
+    <a href="{{ product.url | within: collection }}" class="product-card-new__meta-link">
+      <span class="product-card-new__title">{{ product.title }}</span>
+      <span class="product-card-new__price">
+        {%- if on_sale -%}
+          <span class="product-card-new__price--compare visually-hidden">{{ product.compare_at_price | money }}</span>
+        {%- endif -%}
+        {%- if product.price_varies -%}
+          {{ 'products.general.from_text_html' | t: price: product.price_min | money }}
+        {%- else -%}
+          {{ product.price | money }}
+        {%- endif -%}
+      </span>
+    </a>
+  </div>
+</div>

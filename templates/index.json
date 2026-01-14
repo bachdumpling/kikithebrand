@@ -9,112 +9,74 @@
  */
 {
   "sections": {
-    "slideshow_7cQ8nR": {
-      "type": "slideshow",
-      "blocks": {
-        "image_46ybry": {
-          "type": "image",
-          "settings": {
-            "title": "",
-            "title_size": 66,
-            "subheading": "",
-            "link": "shopify://collections/cozy",
-            "link_text": "SHOP THE COZY SET",
-            "text_align": "vertical-center horizontal-center",
-            "image": "shopify://shop_images/lockscreen_249a8471-d2b7-4bee-b8f6-f4f64c404d86.png",
-            "parallax_direction": "top",
-            "overlay_opacity": 0
-          }
-        },
-        "image_TEUYGR": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "title": "",
-            "title_size": 66,
-            "subheading": "",
-            "link": "shopify://collections/holiday",
-            "link_text": "HOLIDAY",
-            "text_align": "vertical-center horizontal-center",
-            "image": "shopify://shop_images/heroimage2.png",
-            "image_mobile": "shopify://shop_images/IMG_7704_copy.jpg",
-            "parallax_direction": "top",
-            "overlay_opacity": 6
-          }
-        },
-        "image_WdeMDE": {
-          "type": "image",
-          "disabled": true,
-          "settings": {
-            "title": "",
-            "title_size": 66,
-            "subheading": "",
-            "link": "shopify://collections/knits-galore",
-            "link_text": "SHOP NEW IN",
-            "text_align": "vertical-center horizontal-center",
-            "image": "shopify://shop_images/final_valerie.png",
-            "parallax_direction": "top",
-            "overlay_opacity": 6
-          }
-        }
-      },
-      "block_order": [
-        "image_46ybry",
-        "image_TEUYGR",
-        "image_WdeMDE"
-      ],
+    "hero_image_main": {
+      "type": "hero-image",
       "settings": {
-        "section_height": "650px",
-        "mobile_height": "auto",
-        "parallax": false,
-        "style": "minimal",
-        "autoplay": true,
-        "autoplay_speed": 10,
+        "image": "shopify://shop_images/DSCF3561.jpg",
+        "link": "",
+        "link_label": "Shop now",
+        "height": 940,
+        "mobile_height": 500,
         "lazyload_images": false
       }
     },
-    "featured_collection_dJk78g": {
-      "type": "featured-collection",
+    "new_arrivals": {
+      "type": "featured-collection-new",
       "settings": {
-        "title": "Shop Best Sellers",
-        "home_featured_products": "best-sellers",
+        "title": "NEW ARRIVALS",
+        "home_featured_products": "new-in",
         "per_row": 4,
         "rows": 1,
         "view_all": true,
         "divider": false
       }
     },
-    "background_image_text_jVfTCb": {
-      "type": "background-image-text",
+    "banner_knits": {
+      "type": "image-banner-text",
       "settings": {
-        "subtitle": "",
-        "title": "",
-        "text": "",
-        "button_label": "",
-        "button_link": "shopify://products/allure-top",
-        "image": "shopify://shop_images/DSCF8186_1cc9fb77-190a-4d60-b91e-d96177c45ce2.jpg",
-        "layout": "left",
-        "height": 550,
-        "parallax": false,
-        "parallax_direction": "left",
-        "lazyload_images": false
+        "image": "shopify://shop_images/heha.png",
+        "heading": "KNITS GALORE",
+        "link": "",
+        "text_color": "#ffffff",
+        "font_size": 80,
+        "mobile_font_size": 40,
+        "height": 750,
+        "mobile_height": 400,
+        "lazyload_images": true
       }
     },
-    "featured_collection_bxdHC7": {
-      "type": "featured-collection",
+    "cosy_collection": {
+      "type": "featured-collection-new",
       "settings": {
-        "title": "Shop Leo",
-        "home_featured_products": "leo",
+        "title": "COSY COLLECTION",
+        "home_featured_products": "cozy",
         "per_row": 4,
         "rows": 1,
         "view_all": true,
         "divider": false
       }
     },
-    "featured_collection_RngxeJ": {
-      "type": "featured-collection",
+    "split_images_main": {
+      "type": "split-images",
       "settings": {
-        "title": "Shop Swim",
+        "left_image": "shopify://shop_images/LEX02472.jpg",
+        "left_text": "",
+        "left_link": "",
+        "left_label": "View collection",
+        "right_image": "shopify://shop_images/IMG_9210.jpg",
+        "right_text": "",
+        "right_link": "",
+        "right_label": "View collection",
+        "height": 750,
+        "mobile_height": 350,
+        "gap": 2,
+        "lazyload_images": true
+      }
+    },
+    "micros_collection": {
+      "type": "featured-collection-new",
+      "settings": {
+        "title": "MICROS",
         "home_featured_products": "swim",
         "per_row": 4,
         "rows": 1,
@@ -122,29 +84,83 @@
         "divider": false
       }
     },
-    "background_image_text_GYJfVt": {
-      "type": "background-image-text",
+    "banner_sherpa": {
+      "type": "image-banner-text",
       "settings": {
-        "subtitle": "",
-        "title": "",
-        "text": "",
-        "button_label": "",
-        "button_link": "",
-        "image": "shopify://shop_images/DSCF3561_63d62a40-8b15-4b9b-9c95-d0a53428f0b4.jpg",
-        "layout": "left",
-        "height": 550,
-        "parallax": false,
-        "parallax_direction": "left",
-        "lazyload_images": false
+        "image": "shopify://shop_images/IMG_3135.jpg",
+        "heading": "SHERPA",
+        "link": "",
+        "text_color": "#ffffff",
+        "font_size": 100,
+        "mobile_font_size": 40,
+        "height": 750,
+        "mobile_height": 400,
+        "lazyload_images": true
+      }
+    },
+    "instagram_grid_main": {
+      "type": "instagram-grid",
+      "blocks": {
+        "ig_image_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/LEX03717.jpg",
+            "link": ""
+          }
+        },
+        "ig_image_2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_8820.jpg",
+            "link": ""
+          }
+        },
+        "ig_image_3": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/AngieM009519-R1-E014.jpg",
+            "link": ""
+          }
+        },
+        "ig_image_4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_9102.jpg",
+            "link": ""
+          }
+        },
+        "ig_image_5": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_7692.jpg",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "ig_image_1",
+        "ig_image_2",
+        "ig_image_3",
+        "ig_image_4",
+        "ig_image_5"
+      ],
+      "settings": {
+        "title": "OUR WORLD ON INSTAGRAM",
+        "instagram_link": "",
+        "follow_text": "Follow us on Instagram",
+        "image_height": 360,
+        "mobile_image_height": 200
       }
     }
   },
   "order": [
-    "slideshow_7cQ8nR",
-    "featured_collection_dJk78g",
-    "background_image_text_jVfTCb",
-    "featured_collection_bxdHC7",
-    "featured_collection_RngxeJ",
-    "background_image_text_GYJfVt"
+    "hero_image_main",
+    "new_arrivals",
+    "banner_knits",
+    "cosy_collection",
+    "split_images_main",
+    "micros_collection",
+    "banner_sherpa",
+    "instagram_grid_main"
   ]
 }

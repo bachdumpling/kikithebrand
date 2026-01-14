@@ -1,0 +1,162 @@
+{%- comment -%}
+  Size Selector Component
+  A reusable size picker for quick-add overlays, product pages, and cart.
+
+  Parameters:
+  - product: The product object (required)
+  - form_id: Form ID to bind radio inputs to (optional)
+  - compact: Boolean for compact mode styling (default: false)
+  - show_inventory: Boolean to show low stock warnings (default: true)
+  - selected_variant: Pre-selected variant (optional)
+{%- endcomment -%}
+
+{%- liquid
+  assign size_option = null
+  assign size_option_index = null
+  assign size_trigger = 'products.general.size_trigger' | t | downcase
+
+  for option in product.options_with_values
+    assign downcased_option = option.name | downcase
+    if downcased_option contains size_trigger or downcased_option == 'size'
+      assign size_option = option
+      assign size_option_index = forloop.index0
+      break
+    endif
+  endfor
+
+  unless show_inventory == false
+    assign show_inventory = true
+  endunless
+
+  unless compact
+    assign compact = false
+  endunless
+
+  assign current_variant = selected_variant | default: product.selected_or_first_available_variant
+-%}
+
+{%- if size_option != blank -%}
+  <div
+    class="size-selector{% if compact %} size-selector--compact{% endif %}"
+    data-size-selector
+    data-product-id="{{ product.id }}"
+  >
+    <div class="size-selector__buttons">
+      {%- for value in size_option.values -%}
+        {%- liquid
+          # Find the variant for this size to check availability
+          assign variant_available = false
+          assign variant_inventory = 0
+          assign variant_id = null
+
+          for variant in product.variants
+            assign variant_size = variant.options[size_option_index]
+            if variant_size == value
+              assign variant_id = variant.id
+              assign variant_available = variant.available
+              if variant.inventory_management != blank and variant.inventory_policy == 'deny'
+                assign variant_inventory = variant.inventory_quantity
+              endif
+              break
+            endif
+          endfor
+
+          assign is_selected = false
+          if current_variant.options[size_option_index] == value
+            assign is_selected = true
+          endif
+        -%}
+
+        <label
+          class="size-selector__btn{% if is_selected %} size-selector__btn--selected{% endif %}{% unless variant_available %} size-selector__btn--disabled{% endunless %}"
+          data-size-btn
+          data-variant-id="{{ variant_id }}"
+          data-available="{{ variant_available }}"
+        >
+          <input
+            type="radio"
+            name="size-{{ product.id }}"
+            value="{{ value | escape }}"
+            data-variant-id="{{ variant_id }}"
+            data-option-index="{{ size_option_index }}"
+            {% if form_id %}
+              form="{{ form_id }}"
+            {% endif %}
+            {% if is_selected %}
+              checked
+            {% endif %}
+            {% unless variant_available %}
+              disabled
+            {% endunless %}
+            class="size-selector__input visually-hidden"
+          >
+          <span class="size-selector__text">{{ value }}</span>
+        </label>
+      {%- endfor -%}
+    </div>
+
+    {%- if show_inventory and compact -%}
+      <div class="size-selector__inventory" data-size-inventory>
+        {%- assign current_inventory = current_variant.inventory_quantity -%}
+        {%- if current_variant.inventory_management != blank
+          and current_variant.inventory_policy == 'deny'
+          and current_inventory > 0
+          and current_inventory <= 5
+        -%}
+          <span class="size-selector__low-stock"> only {{ current_inventory }} left </span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Hidden select for form submission {%- endcomment -%}
+    <select
+      name="id"
+      class="size-selector__variant-select visually-hidden"
+      data-size-variant-select
+      {% if form_id %}
+        form="{{ form_id }}"
+      {% endif %}
+    >
+      {%- for variant in product.variants -%}
+        <option
+          value="{{ variant.id }}"
+          {% if variant == current_variant %}
+            selected
+          {% endif %}
+          {% unless variant.available %}
+            disabled
+          {% endunless %}
+        >
+          {{ variant.title }}
+        </option>
+      {%- endfor -%}
+    </select>
+
+    {%- comment -%} Store variant data for JavaScript {%- endcomment -%}
+    <script type="application/json" data-size-variants>
+      {
+        "variants": [
+          {%- for variant in product.variants -%}
+            {
+              "id": {{ variant.id }},
+              "available": {{ variant.available }},
+              "inventory": {{ variant.inventory_quantity | default: 0 }},
+              "options": {{ variant.options | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ],
+        "sizeOptionIndex": {{ size_option_index }}
+      }
+    </script>
+  </div>
+{%- else -%}
+  {%- comment -%} Product has no size option - show single add button {%- endcomment -%}
+  <input
+    type="hidden"
+    name="id"
+    value="{{ product.selected_or_first_available_variant.id }}"
+    {% if form_id %}
+      form="{{ form_id }}"
+    {% endif %}
+  >
+{%- endif -%}

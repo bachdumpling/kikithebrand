@@ -6566,20 +6566,31 @@ predictive-search .predictive__screen{
   }
 
 .section-header__link{
-  float:right;
-  font-family:var(--typeBasePrimary), var(--typeBaseFallback);
-  font-size:var(--typeBaseSize);
-  font-weight:var(--typeBaseWeight);
+  font-family:'PP Neue Corp', var(--typeBasePrimary), var(--typeBaseFallback);
+  font-size:13px;
   font-weight:400;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  transition:opacity 0.2s ease;
   letter-spacing:var(--typeBaseSpacing);
   line-height:var(--typeBaseLineHeight);
-  padding-top:6px;
+  display:block;
+  text-align:center;
+  margin-top:10px;
+}
+
+.section-header--centered{
+  text-align:center;
+}
+
+.section-header__link:hover{
+  opacity:0.6;
 }
 
 @media only screen and (max-width:589px){
 
 .section-header__link{
-    display:none;
+    display:block;
 }
   }
 

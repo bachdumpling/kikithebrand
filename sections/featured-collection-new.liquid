@@ -45,17 +45,17 @@
 >
   {%- if section.settings.title != blank or section.settings.view_all -%}
     <div class="page-width">
-      <div class="section-header">
-        <h2 class="section-header__title">
-          {% if section.settings.title != blank %}
+      <div class="section-header section-header--centered">
+        {% if section.settings.title != blank %}
+          <h2 class="section-header__title">
             {{ section.settings.title }}
-          {% endif %}
-          {% if section.settings.view_all and section.settings.rows == 1 %}
-            <a href="{{ collections[section.settings.home_featured_products].url }}" class="section-header__link">
-              {{- 'collections.general.all_of_collection' | t -}}
-            </a>
-          {% endif %}
-        </h2>
+          </h2>
+        {% endif %}
+        {% if section.settings.view_all and section.settings.rows == 1 %}
+          <a href="{{ collections[section.settings.home_featured_products].url }}" class="section-header__link">
+            {{- 'collections.general.all_of_collection' | t -}}
+          </a>
+        {% endif %}
       </div>
     </div>
   {% endif %}
